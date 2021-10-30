@@ -2,6 +2,11 @@
   "name": "react-playground",
   "version": "0.1.0",
   "private": true,
+  "prettier": {
+    "printWidth": 71,
+    "tabWidth": 2,
+    "singleQuote": true
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
