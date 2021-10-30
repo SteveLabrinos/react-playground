@@ -4,7 +4,7 @@ import Card from './Card';
 
 function Expenses({ expenses }) {
   return (
-    <Card className="expenses">
+    <Card className='expenses'>
       {expenses.map((expense) => (
         <ExpenseItem key={expense.id} {...expense} />
       ))}
