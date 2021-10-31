@@ -8,68 +8,61 @@ function ExpenseForm({ onSaveExpenseData }) {
     enteredAmount: '',
     enteredDate: '',
   });
+  const [showForm, setShowForm] = useState(false);
 
-  const titleChangeHandler = (event) => {
-    setUserInput((prevState) => {
-      return { ...prevState, enteredTitle: event.target.value };
+  const inputChangeHandler = property => event => {
+    setUserInput(prevState => {
+      return { ...prevState, [property]: event.target.value };
     });
   };
 
-  const amountChangeHandler = (event) => {
-    setUserInput((prevState) => {
-      return { ...prevState, enteredAmount: event.target.value };
-    });
+  const toggleFormHandler = () => {
+    setShowForm(prevShowForm => !prevShowForm);
   };
 
-  const dateChangeHandler = (event) => {
-    setUserInput((prevState) => {
-      return { ...prevState, enteredDate: event.target.value };
-    });
-  };
-
-  const submitHandler = (event) => {
+  const submitHandler = event => {
     event.preventDefault();
     onSaveExpenseData({
       title: userInput.enteredTitle,
       amount: parseFloat(userInput.enteredAmount),
       date: new Date(userInput.enteredDate),
     });
-
+    // Reset the form inputs
     setUserInput({
       enteredTitle: '',
       enteredAmount: '',
       enteredDate: '',
     });
+    // Hide the form inputs from the user
+    toggleFormHandler();
   };
 
-  return (
+  return showForm ? (
     <form onSubmit={submitHandler}>
       <div className='new-expense__controls'>
         <div className='new-expense__control'>
           <label>Title</label>
           <input
             value={userInput.enteredTitle}
-            onChange={titleChangeHandler}
+            onChange={inputChangeHandler('enteredTitle')}
             type='text'
           />
         </div>
-
         <div className='new-expense__control'>
           <label>Amount</label>
           <input
             value={userInput.enteredAmount}
-            onChange={amountChangeHandler}
+            onChange={inputChangeHandler('enteredAmount')}
             type='number'
             min='0.01'
             step='0.01'
           />
         </div>
-
         <div className='new-expense__control'>
           <label>Date</label>
           <input
             value={userInput.enteredDate}
-            onChange={dateChangeHandler}
+            onChange={inputChangeHandler('enteredDate')}
             type='date'
             min='2019-01-01'
             max='2022-12-31'
@@ -77,9 +70,12 @@ function ExpenseForm({ onSaveExpenseData }) {
         </div>
       </div>
       <div className='new-expense__actions'>
+        <button onClick={toggleFormHandler}>Cancel</button>
         <button type='submit'>Add Expense</button>
       </div>
     </form>
+  ) : (
+    <button onClick={toggleFormHandler}>Add New Expense</button>
   );
 }
 
