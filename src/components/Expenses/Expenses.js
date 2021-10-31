@@ -7,8 +7,6 @@ import './Expenses.css';
 
 function Expenses({ expenses }) {
   const [expensesFilter, setExpensesFilter] = useState('2020');
-  // Check that the state is properly updated
-  console.log(`Value for filter = ${expensesFilter}`);
 
   const addExpensesFilterHandler = expensesFilter => {
     setExpensesFilter(expensesFilter);
