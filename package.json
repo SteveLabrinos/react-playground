@@ -6,7 +6,8 @@
     "printWidth": 71,
     "tabWidth": 2,
     "singleQuote": true,
-    "jsxSingleQuote": true
+    "jsxSingleQuote": true,
+    "arrowParens": "avoid"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
