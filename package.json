@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "prettier": {
-    "printWidth": 71,
+    "printWidth": 90,
     "tabWidth": 2,
     "singleQuote": true,
     "jsxSingleQuote": true,

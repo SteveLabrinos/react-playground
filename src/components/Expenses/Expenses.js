@@ -12,15 +12,24 @@ function Expenses({ expenses }) {
     setExpensesFilter(expensesFilter);
   };
 
+  const filteredExpenses = expenses.filter(
+    expense => expense.date.getFullYear() === parseInt(expensesFilter)
+  );
+
+  const expenseContent =
+    filteredExpenses.length === 0 ? (
+      <p>No Expenses Found!!</p>
+    ) : (
+      expenses.map(expense => <ExpenseItem key={expense.id} {...expense} />)
+    );
+
   return (
     <Card className='expenses'>
       <ExpensesFilter
         selected={expensesFilter}
         onAddExpensesFilter={addExpensesFilterHandler}
       />
-      {expenses.map(expense => (
-        <ExpenseItem key={expense.id} {...expense} />
-      ))}
+      {expenseContent}
     </Card>
   );
 }
