@@ -1,7 +1,8 @@
 import { useState } from 'react';
+
 import './ExpenseForm.css';
 
-function ExpenseForm() {
+function ExpenseForm({ onSaveExpenseData }) {
   const [userInput, setUserInput] = useState({
     enteredTitle: '',
     enteredAmount: '',
@@ -28,7 +29,7 @@ function ExpenseForm() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log({
+    onSaveExpenseData({
       title: userInput.enteredTitle,
       amount: parseFloat(userInput.enteredAmount),
       date: new Date(userInput.enteredDate),
