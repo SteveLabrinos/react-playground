@@ -1,10 +1,10 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
 import styles from './AddUser.module.css';
 
-function AddUser() {
+function AddUser({ onAddUser }) {
   const [enteredData, setEnteredData] = useState({
     username: '',
     age: '',
@@ -13,7 +13,7 @@ function AddUser() {
 
   const changeInputHandler = property => event => {
     setEnteredData(prevData => {
-      return {...prevData, [property]: event.target.value};
+      return { ...prevData, [property]: event.target.value };
     });
   };
 
@@ -35,7 +35,7 @@ function AddUser() {
       console.log('Age must be a positive integer');
       return;
     }
-    console.log(enteredData);
+    onAddUser(enteredData);
     // Reset the form inputs
     setEnteredData({
       username: '',
