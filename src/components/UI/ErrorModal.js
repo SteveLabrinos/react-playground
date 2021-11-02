@@ -4,10 +4,10 @@ import Card from './Card';
 import Button from './Button';
 import classes from './ErrorModal.module.css';
 
-function ErrorModal({ title, message }) {
+function ErrorModal({ title, message, onHideModal }) {
   return (
     <Fragment>
-      <div className={classes.backdrop}></div>
+      <div className={classes.backdrop} onClick={onHideModal}></div>
       <Card className={classes.modal}>
         <header className={classes.header}>
           <h2>{title}</h2>
@@ -16,7 +16,7 @@ function ErrorModal({ title, message }) {
           <p>{message}</p>
         </div>
         <footer className={classes.actions}>
-          <Button>Okay</Button>
+          <Button onClick={onHideModal}>Okay</Button>
         </footer>
       </Card>
     </Fragment>

@@ -10,7 +10,8 @@ function AddUser({ onAddUser }) {
     username: '',
     age: '',
   });
-  const [isFormValid, setIsFormValid] = useState(true);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [modalContent, setModalContent] = useState();
 
   const changeInputHandler = property => event => {
     setEnteredData(prevData => {
@@ -18,35 +19,40 @@ function AddUser({ onAddUser }) {
     });
   };
 
-  const toggleFormValidHandler = () => {
-    setIsFormValid(prevState => {
-      return !prevState;
-    });
+  const showErrorHandler = content => {
+    setShowErrorModal(true);
+    setModalContent(content);
+  };
+
+  const hideErrorHandler = () => {
+    setShowErrorModal(false);
   };
 
   const submitHandler = event => {
     event.preventDefault();
-    // Send the data to the parent
     if (enteredData.username.trim().length === 0 || enteredData.age.trim().length === 0) {
-      toggleFormValidHandler();
-      console.log('Username and age must have a value');
-      return;
+      showErrorHandler({
+        title: 'An error has occurred',
+        message: 'Username and Age fields must have a value',
+      });
     } else if (+enteredData.age <= 0) {
-      toggleFormValidHandler();
-      console.log('Age must be a positive integer');
-      return;
+      showErrorHandler({
+        title: 'An arithmetic error has occurred',
+        message: 'Age must be a positive integer',
+      });
+    } else {
+      onAddUser(enteredData);
+      // Reset the form inputs
+      setEnteredData({
+        username: '',
+        age: '',
+      });
     }
-    onAddUser(enteredData);
-    // Reset the form inputs
-    setEnteredData({
-      username: '',
-      age: '',
-    });
   };
 
   return (
     <Fragment>
-      <ErrorModal title='test' message='message' />
+      {showErrorModal && <ErrorModal onHideModal={hideErrorHandler} {...modalContent} />}
       <Card className={styles.input}>
         <form onSubmit={submitHandler}>
           <label htmlFor='username'>Username</label>
