@@ -1,27 +1,43 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
 import styles from './AddUser.module.css';
 
 function AddUser() {
-  const [insertedData, setInsertedData] = useState({
+  const [enteredData, setEnteredData] = useState({
     username: '',
     age: '',
   });
+  const [isFormValid, setIsFormValid] = useState(true);
 
   const changeInputHandler = property => event => {
-    setInsertedData(prevData => {
-      return { ...prevData, [property]: event.target.value };
+    setEnteredData(prevData => {
+      return {...prevData, [property]: event.target.value};
+    });
+  };
+
+  const toggleFormValidHandler = () => {
+    setIsFormValid(prevState => {
+      return !prevState;
     });
   };
 
   const submitHandler = event => {
     event.preventDefault();
     // Send the data to the parent
-    console.log(insertedData);
+    if (enteredData.username.trim().length === 0 || enteredData.age.trim().length === 0) {
+      toggleFormValidHandler();
+      console.log('Username and age must have a value');
+      return;
+    } else if (+enteredData.age <= 0) {
+      toggleFormValidHandler();
+      console.log('Age must be a positive integer');
+      return;
+    }
+    console.log(enteredData);
     // Reset the form inputs
-    setInsertedData({
+    setEnteredData({
       username: '',
       age: '',
     });
@@ -33,14 +49,14 @@ function AddUser() {
         <label htmlFor='username'>Username</label>
         <input
           onChange={changeInputHandler('username')}
-          value={insertedData.username}
+          value={enteredData.username}
           id='username'
           type='text'
         />
         <label htmlFor='age'>Age (Years)</label>
         <input
           onChange={changeInputHandler('age')}
-          value={insertedData.age}
+          value={enteredData.age}
           id='age'
           type='number'
         />
