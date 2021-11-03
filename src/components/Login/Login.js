@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -13,7 +13,17 @@ const Login = props => {
 
   // Handle validation with useEffect
   useEffect(() => {
-    setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+    // Debouncing to check validity after half a second with clean up function
+    const identifier = setTimeout(() => {
+      setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+    }, 500);
+    // Clean up
+    // Clean up function won't trigger on the first call of useEffect. In any other calls, or when
+    // the component is unmounting the DOM, then the clean up function runs first and then the
+    // main function body of the hook
+    return () => {
+      clearTimeout(identifier);
+    };
   }, [enteredPassword, enteredEmail]);
 
   const emailChangeHandler = event => {
