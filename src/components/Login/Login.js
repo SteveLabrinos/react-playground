@@ -43,16 +43,10 @@ const Login = props => {
   const { value: email, isValid: emailValid } = formState.email;
   const { value: password, isValid: passwordValid } = formState.password;
 
-  // Handle validation with useEffect
   useEffect(() => {
-    // Debouncing to check validity after half a second with clean up function
     const identifier = setTimeout(() => {
-      dispatchForm({
-        type: 'FORM_VALIDITY',
-        payload: emailValid && passwordValid,
-      });
+      dispatchForm({ type: 'FORM_VALIDITY', payload: emailValid && passwordValid });
     }, 500);
-    // Clean up
     // Clean up function won't trigger on the first call of useEffect. In any other calls, or when
     // the component is unmounting the DOM, then the clean up function runs first and then the
     // main function body of the hook
@@ -61,20 +55,15 @@ const Login = props => {
     };
   }, [emailValid, passwordValid]);
 
-  const emailChangeHandler = event => {
-    dispatchForm({ type: 'EMAIL_CHANGE', payload: event.target.value });
+  const inputChangeHandler = property => event => {
+    dispatchForm({
+      type: `${property.toUpperCase()}_CHANGE`,
+      payload: event.target.value,
+    });
   };
 
-  const passwordChangeHandler = event => {
-    dispatchForm({ type: 'PASSWORD_CHANGE', payload: event.target.value });
-  };
-
-  const validateEmailHandler = () => {
-    dispatchForm({ type: 'EMAIL_VALIDITY' });
-  };
-
-  const validatePasswordHandler = () => {
-    dispatchForm({ type: 'PASSWORD_VALIDITY' });
+  const validateInputHandler = property => () => {
+    dispatchForm({ type: `${property.toUpperCase()}_VALIDITY` });
   };
 
   const submitHandler = event => {
@@ -93,8 +82,8 @@ const Login = props => {
             type='email'
             id='email'
             value={email}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
+            onChange={inputChangeHandler('email')}
+            onBlur={validateInputHandler('email')}
           />
         </div>
         <div
@@ -107,8 +96,8 @@ const Login = props => {
             type='password'
             id='password'
             value={password}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
+            onChange={inputChangeHandler('password')}
+            onBlur={validateInputHandler('password')}
           />
         </div>
         <div className={classes.actions}>
