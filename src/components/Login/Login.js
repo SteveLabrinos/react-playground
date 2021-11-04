@@ -80,6 +80,8 @@ function Login() {
       <form onSubmit={submitHandler}>
         <Input
           inputValid={emailValid}
+          label='E-Mail'
+          id='email'
           inputName='email'
           type='email'
           inputValue={email}
@@ -88,6 +90,8 @@ function Login() {
         />
         <Input
           inputValid={passwordValid}
+          label='Password'
+          id='password'
           inputName='password'
           type='password'
           inputValue={password}
