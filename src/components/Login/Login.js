@@ -1,10 +1,11 @@
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useContext } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import AuthContext from '../../store/auth-context';
 
-const formReducer = (state, action) => {
+function formReducer(state, action) {
   switch (action.type) {
     case 'EMAIL_CHANGE':
       return {
@@ -31,9 +32,11 @@ const formReducer = (state, action) => {
     default:
       return state;
   }
-};
+}
 
-const Login = props => {
+function Login() {
+  const { onLogin } = useContext(AuthContext);
+
   const [formState, dispatchForm] = useReducer(formReducer, {
     email: { value: '', isValid: null },
     password: { value: '', isValid: null },
@@ -68,7 +71,7 @@ const Login = props => {
 
   const submitHandler = event => {
     event.preventDefault();
-    props.onLogin(email, password);
+    onLogin(email, password);
   };
 
   return (
@@ -108,6 +111,6 @@ const Login = props => {
       </form>
     </Card>
   );
-};
+}
 
 export default Login;
