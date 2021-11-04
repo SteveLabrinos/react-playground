@@ -11,10 +11,7 @@ function App() {
   return (
     <Fragment>
       <MainHeader />
-      <main>
-        {!isLoggedIn && <Login />}
-        {isLoggedIn && <Home />}
-      </main>
+      <main>{!isLoggedIn ? <Login /> : <Home />}</main>
     </Fragment>
   );
 }
